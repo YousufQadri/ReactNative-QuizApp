@@ -1,11 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { create } from "uuid-js";
 
-const Header = () => {
+const Header = ({ title = "header" }) => {
   return (
     <View style={styles.viewStyle}>
-      <Text style={styles.textStyle}>Quiz App</Text>
+      <Text style={styles.textStyle}>{title}</Text>
     </View>
   );
 };
@@ -20,7 +19,8 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 24,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    color: "white"
   }
 });
 
