@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator
+} from "react-native";
 import axios from "axios";
 
 import Header from "../components/Header";
@@ -8,7 +14,7 @@ import QuizList from "../components/QuizList";
 class QuizScreen extends React.Component {
   state = {
     quizData: [],
-    index: 1
+    responseData: false
   };
 
   static navigationOptions = {
@@ -22,13 +28,10 @@ class QuizScreen extends React.Component {
       )
       .then(res => res.data.results);
 
-    this.setState({ quizData: response });
+    this.setState({ quizData: response, responseData: true });
   }
   render() {
-    const { quizData } = this.state;
-    const item = quizData.filter(
-      (data, index) => data[index] === this.state.index
-    );
+    const { quizData, responseData } = this.state;
     console.log(quizData);
 
     return (
@@ -37,14 +40,15 @@ class QuizScreen extends React.Component {
           <Header title="Quiz App" />
         </View>
         <View style={styles.body}>
-          <View>
-            {}
-            <QuizList
-              key={item.question}
-              question={quizData.question}
-              option={quizData.incorrect_answers}
+          {responseData ? (
+            <QuizList data={quizData} />
+          ) : (
+            <ActivityIndicator
+              style={styles.container}
+              size="large"
+              color="#0000ff"
             />
-          </View>
+          )}
         </View>
       </View>
     );
