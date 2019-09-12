@@ -1,23 +1,26 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
+// import QuizOption from "./QuizOption";
 
 class QuizList extends React.Component {
   state = {};
 
   render() {
     const { data } = this.props;
+    // const options = data.incorrect_answers;
+    // options.push(data.correct_answer);
 
     return (
       <FlatList
         data={data}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <View>
             <Text style={[styles.questionBody, styles.verticalSpace]}>
               {item.question}
             </Text>
             <View>
-              <Text>{(item.correct_answer, item.incorrect_answers)}</Text>
-              {}
+              <Text>{item.incorrect_answers}</Text>
             </View>
           </View>
         )}
