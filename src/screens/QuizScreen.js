@@ -32,8 +32,6 @@ class QuizScreen extends React.Component {
       .then(({ results }) => {
         this.setState({ loading: false });
 
-        console.log(results);
-
         navigation.navigate("Questions", { questions: results });
       })
       .catch(err => {
@@ -67,19 +65,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  header: {
-    flex: 1,
-    height: 100
-  },
-
-  body: {
-    flex: 6,
-    alignItems: "center",
-    justifyContent: "center"
-  },
   button: {
-    padding: 15,
-    margin: 10,
+    padding: 25,
     color: "white",
     alignItems: "center",
     backgroundColor: "#e74c3c",

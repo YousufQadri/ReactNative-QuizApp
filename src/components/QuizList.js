@@ -17,6 +17,10 @@ class QuizList extends React.Component {
     score: 0
   };
 
+  static navigationOptions = {
+    header: null
+  };
+
   componentDidMount() {
     this.renderQuestion();
   }
@@ -55,43 +59,61 @@ class QuizList extends React.Component {
     });
   };
 
-  nextQuestion = () => {
-    const { questions, options, asked, userAnswer } = this.state;
+  nextQuestion = end => {
+    const { questions, options, asked, userAnswer, score } = this.state;
 
-    // const quesAsked = questions[asked];
+    const quesAsked = questions[asked];
 
-    // if (options[userAnswer].label === base64.decode(quesAsked.correct_answer)) {
-    //   this.setState({ score: score + 10 });
-    // }
+    if (options[userAnswer].label === base64.decode(quesAsked.correct_answer)) {
+      this.setState({ score: score + 10 });
+    }
+    console.log(score);
 
-    console.log(asked);
-    this.setState({ asked: asked + 1 }, () => {
-      this.renderQuestion();
-    });
-    console.log(asked);
+    console.log(this.state.score);
+    this.setState({ asked: asked + 1 }, () =>
+      !end ? this.renderQuestion() : this.showResult()
+    );
+  };
+
+  showResult = () => {
+    const { navigation } = this.props;
+
+    navigation.navigate("Result", { score: this.state.score });
   };
 
   render() {
-    const { currentQuestion, options } = this.state;
+    const { currentQuestion, options, asked, questions } = this.state;
 
     return (
       <View style={styles.container}>
-        <Text>{this.state.asked} of 3</Text>
-        <Text>{currentQuestion}</Text>
-        <RadioForm
-          radio_props={options}
-          onPress={value => this.setState({ userAnswer: value })}
-        />
-        <Button title="Next" onPress={() => this.nextQuestion()} />
-        {/* <Text style={[styles.questionBody, styles.verticalSpace]}>
-          {question}
-          {option.map(op => {
-            <Text>{op}</Text>;monitr
-          })}
-        </Text>
-        <View>
-          <Text>{asked}</Text>
-        </View> */}
+        <View style={styles.infoDisplay}>
+          <View>
+            <Text>
+              {asked + 1} of {questions.length}
+            </Text>
+          </View>
+          <View>
+            <Text>00:10</Text>
+          </View>
+        </View>
+
+        <View style={styles.quizDialog}>
+          <View style={styles.questionBody}>
+            <Text style={styles.questionText}>{currentQuestion}</Text>
+          </View>
+
+          <View style={styles.optionBody}>
+            <RadioForm
+              radio_props={options}
+              onPress={value => this.setState({ userAnswer: value })}
+            />
+          </View>
+        </View>
+        {questions.length === asked + 1 ? (
+          <Button title="Finish" onPress={() => this.nextQuestion("end")} />
+        ) : (
+          <Button title="Next" onPress={() => this.nextQuestion()} />
+        )}
       </View>
     );
   }
@@ -103,13 +125,32 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-  verticalSpace: {
-    marginVertical: 10
+  infoDisplay: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  quizDialog: {
+    flex: 3,
+    width: "90%",
+    // height: "80%",
+    borderWidth: 2,
+    marginTop: 40,
+    marginBottom: 60
   },
   questionBody: {
-    padding: 5,
+    // padding: 5,
+
+    marginBottom: 15,
+    backgroundColor: "#e9ecf2"
+  },
+  questionText: {
     fontSize: 18,
-    backgroundColor: "grey"
+    fontWeight: "bold",
+    padding: 10
+  },
+  optionBody: {
+    marginLeft: 20
   }
 });
 
