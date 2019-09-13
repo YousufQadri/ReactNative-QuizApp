@@ -3,6 +3,7 @@ import { createStackNavigator } from "react-navigation-stack";
 
 import HomeScreen from "./src/screens/HomeScreen";
 import QuizScreen from "./src/screens/QuizScreen";
+import QuizList from "./src/components/QuizList";
 
 const MainNavigator = createStackNavigator({
   Home: {
@@ -10,6 +11,9 @@ const MainNavigator = createStackNavigator({
   },
   Quiz: {
     screen: QuizScreen
+  },
+  Questions: {
+    screen: QuizList
   },
   initialRouteName: "Home"
 });
