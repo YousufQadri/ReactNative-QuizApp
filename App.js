@@ -5,10 +5,14 @@ import HomeScreen from "./src/screens/HomeScreen";
 import QuizScreen from "./src/screens/QuizScreen";
 import QuizList from "./src/components/QuizList";
 import ResultScreen from "./src/screens/ResultScreen";
+import CameraScreen from "./src/screens/CameraScreen";
 
 const MainNavigator = createStackNavigator({
   Home: {
     screen: HomeScreen
+  },
+  Camera: {
+    screen: CameraScreen
   },
   Quiz: {
     screen: QuizScreen
