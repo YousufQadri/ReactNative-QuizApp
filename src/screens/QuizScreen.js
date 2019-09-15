@@ -36,8 +36,7 @@ class QuizScreen extends React.Component {
       })
       .catch(err => {
         console.log("ERR->", err);
-        // eslint-disable-next-line no-alert
-        alert(`ERROR:${err.message}`);
+        alert(`ERROR: ${err.message}. Try again`);
         this.setState({ loading: false });
       });
   };
