@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  ActivityIndicator
+} from "react-native";
 import RadioForm from "react-native-simple-radio-button";
 import base64 from "base-64";
 // import QuizOption from "./QuizOption";
@@ -14,7 +20,11 @@ class QuizList extends React.Component {
       disabled: true
     },
     userAnswer: 0,
-    score: 0
+    score: 0,
+    time: {
+      min: 0,
+      sec: 0
+    }
   };
 
   static navigationOptions = {
@@ -23,6 +33,14 @@ class QuizList extends React.Component {
 
   componentDidMount() {
     this.renderQuestion();
+
+    this.time = setInterval(() => {
+      this.increaseTimer();
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.time);
   }
 
   renderQuestion = () => {
@@ -67,9 +85,7 @@ class QuizList extends React.Component {
     if (options[userAnswer].label === base64.decode(quesAsked.correct_answer)) {
       this.setState({ score: score + 10 });
     }
-    console.log(score);
 
-    console.log(this.state.score);
     this.setState({ asked: asked + 1 }, () =>
       !end ? this.renderQuestion() : this.showResult()
     );
@@ -78,22 +94,52 @@ class QuizList extends React.Component {
   showResult = () => {
     const { navigation } = this.props;
 
-    navigation.navigate("Result", { score: this.state.score });
+    navigation.navigate("Result", {
+      score: this.state.score,
+      total: this.state.questions,
+      time: this.state.time
+    });
+  };
+
+  increaseTimer = () => {
+    let {
+      time: { min, sec }
+    } = this.state;
+    if (sec < 59) {
+      sec++;
+    } else {
+      sec = 0;
+      min++;
+    }
+    this.setState({ time: { sec, min } });
   };
 
   render() {
-    const { currentQuestion, options, asked, questions } = this.state;
+    const { currentQuestion, options, asked, questions, time } = this.state;
 
     return (
       <View style={styles.container}>
-        <View style={styles.infoDisplay}>
+        <View
+          style={{
+            flex: 1,
+            paddingTop: "20%",
+            flexDirection: "row",
+            justifyContent: "space-between"
+          }}
+        >
           <View>
-            <Text>
-              {asked + 1} of {questions.length}
+            <Text style={{ marginRight: "70%" }}>
+              <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                {asked <= 9 ? asked + 1 : asked}{" "}
+              </Text>
+              of {questions.length}
             </Text>
           </View>
           <View>
-            <Text>00:10</Text>
+            <Text>
+              {time.min < 10 ? `0${time.min}` : time.min}:
+              {time.sec < 10 ? `0${time.sec}` : time.sec}
+            </Text>
           </View>
         </View>
 
@@ -109,11 +155,13 @@ class QuizList extends React.Component {
             />
           </View>
         </View>
-        {questions.length === asked + 1 ? (
-          <Button title="Finish" onPress={() => this.nextQuestion("end")} />
-        ) : (
-          <Button title="Next" onPress={() => this.nextQuestion()} />
-        )}
+        <View style={{ flex: 1 }}>
+          {questions.length <= asked + 1 ? (
+            <Button title="Finish" onPress={() => this.nextQuestion("end")} />
+          ) : (
+            <Button title="Next" onPress={() => this.nextQuestion()} />
+          )}
+        </View>
       </View>
     );
   }
@@ -125,13 +173,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-  infoDisplay: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
   quizDialog: {
-    flex: 3,
+    flex: 4,
     width: "90%",
     // height: "80%",
     borderWidth: 2,
@@ -139,17 +182,18 @@ const styles = StyleSheet.create({
     marginBottom: 60
   },
   questionBody: {
-    // padding: 5,
-
-    marginBottom: 15,
+    paddingTop: 15,
+    paddingBottom: 30,
+    marginBottom: 20,
     backgroundColor: "#e9ecf2"
   },
   questionText: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "bold",
     padding: 10
   },
   optionBody: {
+    width: "100%",
     marginLeft: 20
   }
 });
