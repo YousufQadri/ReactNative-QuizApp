@@ -1,14 +1,14 @@
 import React from "react";
 import { StyleSheet, View, Text, Button, ScrollView } from "react-native";
 export default class ResultScreen extends React.Component {
-  state = {
-    answers: [],
-    score: 0,
-    time: {
-      minutes: 0,
-      seconds: 0
-    }
-  };
+  // state = {
+  //   answers: [],
+  //   score: 0,
+  //   time: {
+  //     minutes: 0,
+  //     seconds: 0
+  //   }
+  // };
 
   //   componentDidMount() {
   //     const { navigation } = this.props;
@@ -23,22 +23,26 @@ export default class ResultScreen extends React.Component {
   //     this.setState({ answers, score, time });
   //   }
 
-  //   startQuiz = () => {
-  //     const { navigation } = this.props;
-  //     navigation.navigate('Main');
-  //   };
-
   startQuiz = () => {
     this.props.navigation.navigate("Quiz");
   };
 
   render() {
-    const { answers, time } = this.state;
     const score = this.props.navigation.getParam("score", 0);
+    let total = this.props.navigation.getParam("total", 0);
+    const time = this.props.navigation.getParam("time", 0);
+    total = total.length * 10;
 
     return (
-      <View>
-        <Text>Result: {score}}</Text>
+      <View style={styles.container}>
+        <Text style={{ fontSize: 24 }}>You scored...</Text>
+        <Text style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20 }}>
+          {score} out of {total}
+        </Text>
+        <Text>
+          Time taken: {time.min !== 0 ? `${time.min} minutes and` : null}{" "}
+          {time.sec} seconds
+        </Text>
         <Button title="Play again" onPress={this.startQuiz} />
       </View>
     );
@@ -167,7 +171,8 @@ export default class ResultScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
-    paddingTop: 25
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
