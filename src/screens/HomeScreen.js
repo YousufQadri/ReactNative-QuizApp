@@ -17,7 +17,7 @@ class HomeScreen extends React.Component {
         <View style={styles.body}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.navigation.navigate("Quiz")}
+            onPress={() => this.props.navigation.navigate("Camera")}
           >
             <Text style={{ fontSize: 18 }}>Let's get started</Text>
           </TouchableOpacity>
@@ -32,12 +32,11 @@ const styles = StyleSheet.create({
     flex: 1
   },
   header: {
-    flex: 1,
-    height: 100
+    flex: 1
   },
 
   body: {
-    flex: 6,
+    flex: 8,
     backgroundColor: "skyblue",
     alignItems: "center",
     justifyContent: "center"
