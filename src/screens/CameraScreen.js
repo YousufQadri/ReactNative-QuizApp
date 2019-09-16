@@ -4,6 +4,7 @@ import * as Permissions from "expo-permissions";
 import { Camera } from "expo-camera";
 import * as FaceDetector from "expo-face-detector";
 import { StackActions, NavigationActions } from "react-navigation";
+import * as Animatable from "react-native-animatable";
 
 class CameraScreen extends React.Component {
   state = {
@@ -77,13 +78,18 @@ class CameraScreen extends React.Component {
               flex: 1,
               backgroundColor: "transparent",
               flexDirection: "column",
-              justifyContent: "flex-end",
+              justifyContent: "center",
               alignItems: "center"
             }}
           >
-            <Text style={{ fontSize: 18, marginBottom: 10, color: "grey" }}>
-              Detecting face...
-            </Text>
+            <Animatable.Text
+              style={{ color: "#F5FFFA", fontSize: 20 }}
+              animation="fadeIn"
+              iterationCount={"infinite"}
+              direction="alternate"
+            >
+              Detecting face. Keep your camera still!
+            </Animatable.Text>
             {/* <TouchableOpacity
               style={{
                 widht: 1000,
