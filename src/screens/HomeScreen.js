@@ -11,17 +11,13 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Header />
-        </View>
-        <View style={styles.body}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate("Camera")}
-          >
-            <Text style={{ fontSize: 18 }}>Let's get started</Text>
-          </TouchableOpacity>
-        </View>
+        <Text style={styles.heading}>Quiz App</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Camera")}
+        >
+          <Text style={{ fontSize: 15 }}>Let's get started</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -29,25 +25,23 @@ class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-  header: {
-    flex: 1
-  },
-
-  body: {
-    flex: 8,
-    backgroundColor: "skyblue",
+    flex: 1,
+    backgroundColor: "#F5F5F5",
     alignItems: "center",
     justifyContent: "center"
   },
   button: {
-    padding: 15,
+    padding: 12,
     margin: 10,
     color: "white",
     alignItems: "center",
     backgroundColor: "#e74c3c",
     borderRadius: 5
+  },
+  heading: {
+    fontSize: 30,
+    fontWeight: "bold",
+    marginBottom: 30
   }
 });
 

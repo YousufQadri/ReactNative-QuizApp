@@ -116,6 +116,7 @@ class QuizList extends React.Component {
 
   render() {
     const { currentQuestion, options, asked, questions, time } = this.state;
+    const intialValue = 0;
 
     return (
       <View style={styles.container}>
@@ -151,6 +152,7 @@ class QuizList extends React.Component {
           <View style={styles.optionBody}>
             <RadioForm
               radio_props={options}
+              intial={intialValue}
               onPress={value => this.setState({ userAnswer: value })}
             />
           </View>
@@ -171,7 +173,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "#F5F5F5"
   },
   quizDialog: {
     flex: 4,

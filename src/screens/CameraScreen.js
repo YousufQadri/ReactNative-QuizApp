@@ -90,23 +90,6 @@ class CameraScreen extends React.Component {
             >
               Detecting face. Keep your camera still!
             </Animatable.Text>
-            {/* <TouchableOpacity
-              style={{
-                widht: 1000,
-                backgroundColor: "blue",
-                borderRadius: 10
-              }}
-              onPress={() => {
-                this.setState({
-                  type:
-                    this.state.type === Camera.Constants.Type.back
-                      ? Camera.Constants.Type.front
-                      : Camera.Constants.Type.back
-                });
-              }}
-            >
-              
-            </TouchableOpacity> */}
           </View>
         </Camera>
       );
